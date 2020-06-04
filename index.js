@@ -57,10 +57,10 @@ app.post("/create/user", async (req, res) => {
 
 // **Update**
 app.post("/update", async (req, res) => {
-  const { selectedUser, amount, place } = req.body;
+  const { userID, amount, place } = req.body;
   try {
-    if (selectedUser && amount && place) {
-      const user = await Users.findById(selectedUser);
+    if (userID && amount && place) {
+      const user = await Users.findById(userID);
       const add = {
         amount,
         place,
