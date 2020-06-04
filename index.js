@@ -57,10 +57,9 @@ app.post("/create/user", async (req, res) => {
 
 // **Update**
 app.post("/update", async (req, res) => {
-  const { userID, amount, place } = req.body;
   try {
-    if (userID && amount && place) {
-      const user = await Users.findById(userID);
+    if (req.body.userID && req.body.amount && req.body.place) {
+      const user = await Users.findById(req.body.userID);
       const add = {
         amount,
         place,
