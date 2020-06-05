@@ -7,8 +7,11 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/Users", {
+mongoose.connect("mongodb://localhost/Users", {
   useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: true,
 });
 
 // const Users = mongoose.model('Users', {
@@ -26,8 +29,8 @@ const Users = mongoose.model("Users", {
   total: { type: Number, default: 0 },
   expense: [
     {
-      lieu: { type: String, default: "" },
-      montant: { type: Number, default: 0 },
+      place: { type: String, default: "" },
+      amount: { type: Number, default: 0 },
     },
   ],
 });
@@ -60,12 +63,12 @@ app.post("/update", async (req, res) => {
   try {
     if (req.body.userID && req.body.amount && req.body.place) {
       const user = await Users.findById(req.body.userID);
-      const add = {
-        amount,
-        place,
+      const newExpense = {
+        amount: req.body.amount,
+        place: req.body.place,
       };
-      user.total = user.total + parseInt(amount);
-      user.expense.push(add);
+      user.expense.push(newExpense);
+      user.total = user.total + parseInt(req.body.amount);
       await user.save();
       res.json({ user });
     } else {
@@ -92,7 +95,7 @@ app.post("/delete", async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
-
-app.listen(process.env.PORT || 3600, () => {
+// app.listen(process.env.PORT || 3600, () => {
+app.listen(3600, () => {
   console.log("Server started");
 });
