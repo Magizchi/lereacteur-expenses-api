@@ -95,7 +95,7 @@ app.post("/delete", async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
-// app.listen(process.env.PORT || 3600, () => {
-app.listen(3600, () => {
+app.listen(process.env.PORT || 3600, () => {
+  // app.listen(3600, () => {
   console.log("Server started");
 });
