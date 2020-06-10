@@ -7,7 +7,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-mongoose.connect(MONGODB_URI || "mongodb://localhost/Users", {
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/Users", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
